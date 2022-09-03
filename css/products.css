@@ -64,7 +64,11 @@
     display: flex;
   }
   
-  
   .sold-count p {
     text-align: r;
+  }
+
+  #botones{
+    right: -700px;
+    position:relative;
   }

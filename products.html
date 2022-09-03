@@ -32,17 +32,46 @@
             <a class="nav-link" href="sell.html">Vender</a>
           </li>
           <li class="nav-item">
+            <a href="" id="userEmail"></a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
   <main>
-    <div id="listado-autos">
-      <div class="text-header">
-        <h2>Productos</h2>
-        <h3>Verás aquí todos los productos de la categoría <strong>Autos</strong></h3>
+    <div class="text-header">
+      <h2>Productos</h2>
+      <h3>Verás aquí todos los productos de la categoría <strong id="categoryName"></strong></h3>
+    </div>
+    <div id="botones">   
+      <input type="search" id="buscar" value="Buscar"  placeholder="Buscar" >
+      <input type="button" id="precio-ascendente" value="Precios Ascendentes">
+      <input type="button" id="precio-descendente" value="Precios descendentes">
+      <input type="button" id="relevancia" value="Relevancia"> 
+    </div>
+
+    <div class="row">
+      <div class="col-lg-6 offset-lg-6 col-md-12 mb-1 container">
+        <div class="row container p-0 m-0">
+          <div class="col">
+            <p class="font-weight-normal text-end my-2">Precio</p>
+          </div>
+          <div class="col">
+            <input class="form-control" type="number" placeholder="min." id="rangeFilterCountMin">
+          </div>
+          <div class="col">
+            <input class="form-control" type="number" placeholder="máx." id="rangeFilterCountMax">
+          </div>
+          <div class="col-3 p-0">
+            <div class="btn-group" role="group">
+              <button class="btn btn-light btn-block" id="rangeFilterCount">Filtrar</button>
+              <button class="btn btn-link btn-sm" id="clearRangeFilter">Limpiar</button>
+            </div>
+          </div>
+        </div>
       </div>
+    </div>
+    <div id="list-products">
     </div>
   </main>
   <footer class="text-muted">

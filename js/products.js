@@ -1,49 +1,88 @@
-document.addEventListener("DOMContentLoaded", function (){
+let rangeFilterCountMinElem = document.getElementById("rangeFilterCountMin");
+let rangeFilterCountMaxElem = document.getElementById("rangeFilterCountMax");
+let filterBtn = document.getElementById('rangeFilterCount');
+let ascendentBtn = document.getElementById('precio-ascendente');
+let descendentBtn = document.getElementById('precio-descendente');
+let relevanceBtn = document.getElementById('relevancia');
+let clearBtn = document.getElementById('clearRangeFilter');
+let divListadoDeAutos = document.getElementById("list-products");
+let catId = localStorage.getItem("catID");
 
-    fetch("https://japceibal.github.io/emercado-api/cats_products/101.json")
-    .then( response => response.json())
-    .then(data =>{
+let productsOriginal = [];
+let products = [];
 
-        let divListadoDeAutos = document.getElementById("listado-autos");
-        for (let i=0; i < data.products.length; i++){
+function showProducts() {
+    let htmlAppend = '';
+    for (let product of products){
+        htmlAppend += 
+        `<div class="product-container">
+            <div class="image-container">
+                <img src="${product.image}" alt="">
+            </div>
+        <div class="details-container">
+            <h3>${product.name} - ${product.currency}  ${product.cost}</h3>
+            <p>${product.description}</p>
+        </div>
+            <div class="sold-count">
+            <p>${product.soldCount} Vendidos"</p>
+        </div>
+        </div>`
+    }
+    divListadoDeAutos.innerHTML = htmlAppend;
+}
 
-            let productImage = document.createElement("img");
-            productImage.setAttribute("src", data.products[i].image);
-
-            let detailsProduct = document.createElement("h3");
-            detailsProduct.innerText = data.products[i].name + " - " + data.products[i].currency + " " + data.products[i].cost;
-            
-            let productDescription = document.createElement("p");
-            productDescription.innerText = data.products[i].description;   
-
-            let soldCounterAutos = document.createElement("p");
-            soldCounterAutos.innerText = data.products[i].soldCount + " Vendidos";
-
-            let imageContainer = document.createElement("div");
-            imageContainer.classList.add("image-container");
-
-            let detailsContainer = document.createElement("div");
-            detailsContainer.classList.add("details-container");
-
-            let soldContainer = document.createElement("div");
-            soldContainer.classList.add("sold-count");
-
-            imageContainer.appendChild(productImage);
-
-            detailsContainer.appendChild(detailsProduct);
-            detailsContainer.appendChild(productDescription);
-
-            soldContainer.appendChild(soldCounterAutos);
-
-            let productContainer = document.createElement("div");
-            productContainer.classList.add("product-container");
-            productContainer.appendChild(imageContainer);
-            productContainer.appendChild(detailsContainer);
-            productContainer.appendChild(soldContainer);
-           
-            divListadoDeAutos.appendChild(productContainer);
-        };  
-
+console.log(`https://japceibal.github.io/emercado-api/cats_products/${catId}.json`);
+fetch(`https://japceibal.github.io/emercado-api/cats_products/${catId}.json`)
+    .then(response => response.json())
+    .then(data => {
+        let categoryName = document.getElementById("categoryName");
+        categoryName.innerText = data.catName;
+        productsOriginal = data.products;
+        products = data.products;
+        showProducts();
     });
 
+function filterProducts() {
+
+    let rangeFilterCountMin = document.getElementById("rangeFilterCountMin").value;
+    let rangeFilterCountMax = document.getElementById("rangeFilterCountMax").value;
+
+    let min = rangeFilterCountMin;
+    let max = rangeFilterCountMax;
+
+    if (min == ''){
+        min = -Infinity;
+    };
+    if (max == ''){
+        max = Infinity;
+    };
+
+    products = productsOriginal.filter(product => product.cost >= min && product.cost <= max);
+    showProducts();
+};
+
+
+filterBtn.addEventListener('click', filterProducts);
+ascendentBtn.addEventListener('click', () =>{
+    products.sort((a,b) => {
+        return a.cost - b.cost;
+    });
+    showProducts()
+});
+descendentBtn.addEventListener('click', () =>{
+    products.sort((a,b) => {
+        return b.cost - a.cost;
+    });
+    showProducts()
+});
+relevanceBtn.addEventListener('click', () =>{
+    products.sort((a,b) => {
+        return b.soldCount - a.soldCount;
+    });
+    showProducts()
+});
+clearBtn.addEventListener('click', () => {
+    rangeFilterCountMinElem.value = '';
+    rangeFilterCountMaxElem.value = '';
+    filterProducts();
 });

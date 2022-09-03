@@ -7,7 +7,8 @@ let userValidation = () => {
     if (emailValue.length == 0 || passwordValue.length == 0) {
         alert(alertMessage);         
     } else {
-        sessionStorage.setItem("user", "true")
+        sessionStorage.setItem("user", "true");
+        localStorage.setItem("userEmail", emailValue);
         window.location.href= 'index.html';
     }   
 }
@@ -34,9 +35,10 @@ function parseJwt (token) {
 function handleCredentialResponse(response) {
     console.log("Encoded JWT ID token: " + response.credential);
     let userObject = parseJwt (response.credential);
-    console.log(userObject);
+    console.log(userObject.email);
     if (userObject =! null){
-        sessionStorage.setItem("user", "true")
+        sessionStorage.setItem("user", "true");
+        localStorage.setItem("userEmail", userObject.email);
         window.location.href= 'index.html';
     }
 }
