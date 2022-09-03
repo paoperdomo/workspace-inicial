@@ -5,6 +5,7 @@ let ascendentBtn = document.getElementById('precio-ascendente');
 let descendentBtn = document.getElementById('precio-descendente');
 let relevanceBtn = document.getElementById('relevancia');
 let clearBtn = document.getElementById('clearRangeFilter');
+let searchBar = document.getElementById('buscar');
 let divListadoDeAutos = document.getElementById("list-products");
 let catId = localStorage.getItem("catID");
 
@@ -86,3 +87,11 @@ clearBtn.addEventListener('click', () => {
     rangeFilterCountMaxElem.value = '';
     filterProducts();
 });
+
+//buscador
+searchBar.addEventListener('input', ()=>{
+    let criteria = searchBar.value;
+    products = productsOriginal.filter(product => product.name.toLowerCase().includes(criteria.toLowerCase()));
+    showProducts();
+});
+
