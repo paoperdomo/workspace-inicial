@@ -1,0 +1,37 @@
+.comment-container{
+    display: flex;
+    flex-direction: column;
+    border-color:  rgb(233, 231, 231);
+    border-style: solid;
+    border-radius: 5px; 
+    margin: 10px 0px;
+    padding: 20px;
+    font-family: 'Raleway', serif;
+    color:rgb(88, 86, 86);
+  }
+
+.image-container {
+    display: flex;
+    margin-top: 40px;
+}
+
+img { 
+    max-width: 100%; 
+    border: 1px solid black;
+    height: auto; 
+    overflow: hidden;
+    margin: 5px;
+}
+
+.details-container > h2 {
+    font-weight: bold;
+    text-align: center;
+}
+
+.details-container p{
+    text-align: center;
+}
+
+.comment-box{
+    height: 100px;
+}

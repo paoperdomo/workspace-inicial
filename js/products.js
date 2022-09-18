@@ -5,6 +5,7 @@ let ascendentBtn = document.getElementById('precio-ascendente');
 let descendentBtn = document.getElementById('precio-descendente');
 let relevanceBtn = document.getElementById('relevancia');
 let clearBtn = document.getElementById('clearRangeFilter');
+let productContainers = document.getElementsByClassName('product-container');
 let searchBar = document.getElementById('buscar');
 let divListadoDeAutos = document.getElementById("list-products");
 let catId = localStorage.getItem("catID");
@@ -28,9 +29,18 @@ function showProducts() {
             <p>${product.soldCount} Vendidos"</p>
         </div>
         </div>`
-    }
+    };
+
     divListadoDeAutos.innerHTML = htmlAppend;
-}
+    
+    Array.from(productContainers).forEach(element => {
+        element.addEventListener('click', ()=> {
+            let pos = Array.from(productContainers).indexOf(element);
+            localStorage.setItem("productId", products[pos].id);
+            window.location.href="product-info.html";
+        });
+    });
+};
 
 console.log(`https://japceibal.github.io/emercado-api/cats_products/${catId}.json`);
 fetch(`https://japceibal.github.io/emercado-api/cats_products/${catId}.json`)
@@ -94,4 +104,3 @@ searchBar.addEventListener('input', ()=>{
     products = productsOriginal.filter(product => product.name.toLowerCase().includes(criteria.toLowerCase()));
     showProducts();
 });
-
